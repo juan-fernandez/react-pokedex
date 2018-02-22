@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+    width: 100%;
+    flex-flow: column;
+}
+.pokemonListContainer{
+    display:flex;
+    width: 100%;
+}
