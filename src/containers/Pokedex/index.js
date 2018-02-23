@@ -17,7 +17,7 @@ class PokedexContainer extends Component {
         this.state={
             searchTerm: "",
             filterValues: filterValues,
-            paginationValue: 5,
+            paginationValue: 30,
             paginationIndex: 1
         }
     }
@@ -49,7 +49,8 @@ class PokedexContainer extends Component {
     }
     onChangePaginationValue = (newValue)=>{
         this.setState({
-            paginationValue: newValue
+            paginationValue: newValue,
+            paginationIndex: 1
         })
     }
     onChangePaginationIndex = (newValue)=>{

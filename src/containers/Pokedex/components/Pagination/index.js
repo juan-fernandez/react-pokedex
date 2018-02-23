@@ -30,6 +30,10 @@ const Pagination = ({...props})=>{
             >
                 <MenuItem value={5} primaryText="5" />
                 <MenuItem value={10} primaryText="10" />
+                <MenuItem value={20} primaryText="20" />
+                <MenuItem value={30} primaryText="30" />
+                <MenuItem value={40} primaryText="40" />
+                <MenuItem value={50} primaryText="50" />
             </SelectField>
 
             <HardwareKeyboardArrowLeft
