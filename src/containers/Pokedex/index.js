@@ -2,16 +2,21 @@ import React, {Component} from 'react'
 import Pokedex from './components/Pokedex'
 import { connect } from 'react-redux'
 import {getSinglePokemon} from '../../actions/pokemonsActions'
-import {getPokemonsAsArray,filterByName} from '../../reducers/pokemonsReducer'
+import {filterByName, filterByType} from '../../reducers/pokemonsReducer'
+import {typeToColor} from '../../utils/settings'
+import {getRandomInt} from '../../utils/aux'
+
 
 class PokedexContainer extends Component {
     constructor(props){
         super(props)
+        let filterValues = {}
+        Object.keys(typeToColor).forEach(key=>{
+            filterValues[key] = false
+        })
         this.state={
             searchTerm: "",
-            filterValues: {
-                fire: false,
-            }
+            filterValues: filterValues
         }
     }
     onChangeFilter = (id,newValue)=>{
@@ -23,10 +28,13 @@ class PokedexContainer extends Component {
         }))
     }
     clearFilters = ()=>{
+        let filterValues = {}
+        Object.keys(typeToColor).forEach(key=>{
+            filterValues[key] = false
+        })
         this.setState({
-            filterValues:{
-                fire:false
-            }
+            searchTerm: "",
+            filterValues:filterValues
         })
     }
     onChangeTerm = (newTerm)=>{
@@ -39,7 +47,7 @@ class PokedexContainer extends Component {
         this.petition_interval = setInterval(()=>{
             // add local storage and keep refreshing but slowly
             if(index < 7){
-                this.props.getSinglePokemon(index)
+                this.props.getSinglePokemon(getRandomInt(1,150))
                 index= index+1
             }else{
                 clearInterval(this.petition_interval)
@@ -47,8 +55,12 @@ class PokedexContainer extends Component {
         },500)
     }
     render(){
-        const filteredPokemonList = filterByName(this.state.searchTerm,
-                                    this.props.pokemons)
+        const selectedFilters = Object.keys(this.state.filterValues).filter((filterValue)=>(
+            this.state.filterValues[filterValue]
+        ))
+        const filteredPokemonList = filterByType(selectedFilters,
+                                    filterByName(this.state.searchTerm,
+                                                 this.props.pokemons))
         return (
             <Pokedex
                 pokemonList={filteredPokemonList}

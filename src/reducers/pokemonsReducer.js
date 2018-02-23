@@ -9,6 +9,14 @@ export const filterByName = (name,pokemons)=>
         pokemon.name.startsWith(name)
     ))
 
+// selectedTypes is an array of selected types in string
+export const filterByType = (selectedTypes, pokemons)=>
+    pokemons.filter((pokemon)=>(
+        selectedTypes.length === 0 ||
+        pokemon.types.some((pokeType)=>selectedTypes.indexOf(pokeType)!==-1)
+    ))
+
+
 
 // reducers
 const ajax = (state={
@@ -63,7 +71,8 @@ const pokemons = (state={}, action)=>{
                     ...state[action.pokemonInfo.id],
                     id: action.pokemonInfo.id,
                     name: action.pokemonInfo.name,
-                    types: action.pokemonInfo.types,
+                    // order by slot and we only keep the info we need
+                    types: action.pokemonInfo.types.sort((a,b)=>a.slot - b.slot).map((pokeTypeInfo)=>pokeTypeInfo.type.name),
                     images: action.pokemonInfo.sprites,
                 }
             }

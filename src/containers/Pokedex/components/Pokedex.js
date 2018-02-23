@@ -47,7 +47,7 @@ const Pokedex = ({...props})=>{
                         <PokemonInfo
                         key={`pokemon-${pokemonInfo.id}`}
                         name={pokemonInfo.name}
-                        type={pokemonInfo.type}
+                        types={pokemonInfo.types}
                         images={pokemonInfo.images.front_default}
                         />
                     ))}

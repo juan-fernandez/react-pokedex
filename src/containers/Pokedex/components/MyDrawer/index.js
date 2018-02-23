@@ -8,6 +8,7 @@ import Checkbox from 'material-ui/Checkbox'
 import Subheader from 'material-ui/Subheader'
 import RaisedButton from 'material-ui/RaisedButton'
 import Delete from 'material-ui/svg-icons/action/delete'
+import {typeToColor} from '../../../../utils/settings'
 
 const MyDrawer = ({...props})=>{
     const {
@@ -49,11 +50,20 @@ const MyDrawer = ({...props})=>{
                 <Subheader>
                     FILTERS
                 </Subheader>
-                <Checkbox
-                    label='Fire'
-                    checked={filterValues.fire}
-                    onCheck={(event,isChecked)=>onChangeFilter('fire',isChecked)}
-                    />
+                {
+                    Object.keys(filterValues).map((key)=>(
+                        <Checkbox
+                            style={{textTransform:'capitalize'}}
+                            labelStyle={{color:typeToColor[key] }}
+                            iconStyle={{fill:typeToColor[key]}}
+                            key={key}
+                            label={key}
+                            checked={filterValues[key]}
+                            onCheck={(event,isChecked)=>onChangeFilter(key,isChecked)}
+                            />
+                    ))
+                }
+
                 <RaisedButton
                     style={{marginTop:'10px'}}
                     onClick={clearFilters}
