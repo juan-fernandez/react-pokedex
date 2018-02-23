@@ -1,5 +1,4 @@
 import React from 'react'
-import Paper from 'material-ui/Paper';
 import PropTypes from 'prop-types'
 import classes from './styles.css'
 
@@ -10,15 +9,20 @@ const PokemonInfo = ({...props})=>{
         images
     } = props
     const {
-        container
+        container,
+        nameContainer
     } = classes
     return (
-        <Paper
+        <div
             className={container}
             >
-            {name}
-            <img src={images} alt="" />
-        </Paper>
+            <img width='150px' height='150px' src={images} alt=""/>
+            <div
+                className={nameContainer}
+                >
+                {name}
+            </div>
+        </div>
     )
 }
 PokemonInfo.propTypes = {

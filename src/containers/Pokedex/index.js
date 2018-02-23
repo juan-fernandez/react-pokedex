@@ -9,7 +9,25 @@ class PokedexContainer extends Component {
         super(props)
         this.state={
             searchTerm: "",
+            filterValues: {
+                fire: false,
+            }
         }
+    }
+    onChangeFilter = (id,newValue)=>{
+        this.setState((currentState)=>({
+            filterValues: {
+                ...currentState.filterValues,
+                [id]:newValue
+            }
+        }))
+    }
+    clearFilters = ()=>{
+        this.setState({
+            filterValues:{
+                fire:false
+            }
+        })
     }
     onChangeTerm = (newTerm)=>{
         this.setState({
@@ -20,7 +38,7 @@ class PokedexContainer extends Component {
         let index = 1
         this.petition_interval = setInterval(()=>{
             // add local storage and keep refreshing but slowly
-            if(index < 6){
+            if(index < 7){
                 this.props.getSinglePokemon(index)
                 index= index+1
             }else{
@@ -33,9 +51,12 @@ class PokedexContainer extends Component {
                                     this.props.pokemons)
         return (
             <Pokedex
-                pokemonList = {filteredPokemonList}
-                searchTerm = {this.state.searchTerm}
-                onChangeTerm = {this.onChangeTerm}
+                pokemonList={filteredPokemonList}
+                searchTerm={this.state.searchTerm}
+                onChangeTerm={this.onChangeTerm}
+                filterValues={this.state.filterValues}
+                onChangeFilter={this.onChangeFilter}
+                clearFilters={this.clearFilters}
                 />
         )
     }

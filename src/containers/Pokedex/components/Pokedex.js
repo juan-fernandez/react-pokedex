@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import PokemonInfo from '../../components/PokemonInfo'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import TextField from 'material-ui/TextField'
+
+import MyDrawer from './MyDrawer'
+
 
 const Pokedex = ({...props})=>{
     const muiTheme = getMuiTheme({
@@ -17,6 +19,9 @@ const Pokedex = ({...props})=>{
         pokemonList,
         searchTerm,
         onChangeTerm,
+        filterValues,
+        onChangeFilter,
+        clearFilters
     } = props
     const {
         container,
@@ -27,14 +32,17 @@ const Pokedex = ({...props})=>{
             <div
                 className={container}
                 >
-                <TextField
-                    hintText="Search for a pokemon"
-                    value={searchTerm}
-                    onChange={(event)=>onChangeTerm(event.target.value)}
+                <MyDrawer
+                    searchTerm={searchTerm}
+                    onChangeTerm={onChangeTerm}
+                    filterValues={filterValues}
+                    onChangeFilter={onChangeFilter}
+                    clearFilters={clearFilters}
                     />
                 <div
                     className={pokemonListContainer}
                     >
+
                     {pokemonList.map((pokemonInfo)=>(
                         <PokemonInfo
                         key={`pokemon-${pokemonInfo.id}`}
@@ -43,6 +51,7 @@ const Pokedex = ({...props})=>{
                         images={pokemonInfo.images.front_default}
                         />
                     ))}
+
                 </div>
             </div>
         </MuiThemeProvider>

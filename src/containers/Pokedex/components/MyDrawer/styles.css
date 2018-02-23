@@ -1,0 +1,26 @@
+.container{
+    position:fixed;
+    height: 100vh;
+    width: 300px;
+    border-right:1px solid rgba(0,0,0,0.14);
+}
+.searchContainer{
+    padding-left:24px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid rgba(0,0,0,0.14);
+    border-top:1px solid rgba(0,0,0,0.14);
+}
+.brandContainer{
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+.filterContainer{
+    margin-left:20px;
+}
+.textField{
+    margin:10px 10px 10px 24px;
+    width:180px;
+}
