@@ -5,7 +5,7 @@ import {getSinglePokemon} from '../../actions/pokemonsActions'
 import {filterByName, filterByType} from '../../reducers/pokemonsReducer'
 import {typeToColor} from '../../utils/settings'
 import {getRandomInt} from '../../utils/aux'
-
+import {savePokemon} from '../../utils/localStorage'
 
 class PokedexContainer extends Component {
     constructor(props){
@@ -57,17 +57,27 @@ class PokedexContainer extends Component {
             paginationIndex: newValue
         })
     }
+    componentWillReceiveProps(nextProps){
+        if (Object.keys(nextProps.pokemons).length !== Object.keys(this.props.pokemons).length){
+            // saving in local storage
+            savePokemon(JSON.stringify(nextProps.pokemons))
+        }
+    }
     componentWillMount(){
+        // only fetch the ones we do not have
+        const missingPokemon = Array.from(Array(150).keys())
+                                .filter((number)=>
+                                    Object.keys(this.props.pokemons).indexOf(number.toString()) == -1)
         let index = 1
         this.petition_interval = setInterval(()=>{
             // add local storage and keep refreshing but slowly
-            if(index < 10){
-                this.props.getSinglePokemon(getRandomInt(1,150))
+            if(index < missingPokemon.length){
+                this.props.getSinglePokemon(missingPokemon[index])
                 index= index+1
             }else{
                 clearInterval(this.petition_interval)
             }
-        },500)
+        },5000) // every 5 seconds not to saturate the API
     }
     render(){
         const {
