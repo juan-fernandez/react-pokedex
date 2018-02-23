@@ -25,7 +25,9 @@ const Pokedex = ({...props})=>{
         paginationValue,
         onChangePaginationValue,
         onChangePaginationIndex,
-        numberOfPokemon
+        numberOfPokemon,
+        typeOfFilter,
+        onChangeTypeOfFilter,
     } = props
     const {
         container,
@@ -44,6 +46,8 @@ const Pokedex = ({...props})=>{
                     filterValues={filterValues}
                     onChangeFilter={onChangeFilter}
                     clearFilters={clearFilters}
+                    typeOfFilter={typeOfFilter}
+                    onChangeTypeOfFilter={onChangeTypeOfFilter}
                     />
                 <Pagination
                     paginationIndex={paginationIndex}

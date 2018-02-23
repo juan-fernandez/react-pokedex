@@ -18,7 +18,8 @@ class PokedexContainer extends Component {
             searchTerm: "",
             filterValues: filterValues,
             paginationValue: 30,
-            paginationIndex: 1
+            paginationIndex: 1,
+            typeOfFilter: 'OR'
         }
     }
     onChangeFilter = (id,newValue)=>{
@@ -30,6 +31,11 @@ class PokedexContainer extends Component {
             paginationIndex: 1
         }))
     }
+    onChangeTypeOfFilter = (newValue)=>{
+        this.setState({
+            typeOfFilter: newValue
+        })
+    }
     clearFilters = ()=>{
         let filterValues = {}
         Object.keys(typeToColor).forEach(key=>{
@@ -38,7 +44,8 @@ class PokedexContainer extends Component {
         this.setState({
             searchTerm: "",
             filterValues:filterValues,
-            paginationIndex: 1
+            paginationIndex: 1,
+            typeOfFilter: 'OR'
         })
     }
     onChangeTerm = (newTerm)=>{
@@ -66,7 +73,7 @@ class PokedexContainer extends Component {
     }
     componentWillMount(){
         // only fetch the ones we do not have
-        const missingPokemon = Array.from(Array(150).keys())
+        const missingPokemon = Array.from(Array(150).keys()) // array from 0 to 150
                                 .filter((number)=>
                                     Object.keys(this.props.pokemons).indexOf(number.toString()) == -1)
         let index = 1
@@ -88,7 +95,7 @@ class PokedexContainer extends Component {
         const selectedFilters = Object.keys(this.state.filterValues).filter((filterValue)=>(
             this.state.filterValues[filterValue]
         ))
-        const filteredPokemonList = filterByType(selectedFilters,
+        const filteredPokemonList = filterByType(this.state.typeOfFilter,selectedFilters,
                                     filterByName(this.state.searchTerm,
                                                  this.props.pokemons))
 
@@ -105,6 +112,8 @@ class PokedexContainer extends Component {
                 onChangePaginationValue={this.onChangePaginationValue}
                 onChangePaginationIndex={this.onChangePaginationIndex}
                 numberOfPokemon={filteredPokemonList.length}
+                typeOfFilter={this.state.typeOfFilter}
+                onChangeTypeOfFilter={this.onChangeTypeOfFilter}
                 />
         )
     }

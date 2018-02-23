@@ -10,10 +10,12 @@ export const filterByName = (name,pokemons)=>
     ))
 
 // selectedTypes is an array of selected types in string
-export const filterByType = (selectedTypes, pokemons)=>
+export const filterByType = (typeOfFilter,selectedTypes, pokemons)=>
     pokemons.filter((pokemon)=>(
         selectedTypes.length === 0 ||
-        pokemon.types.some((pokeType)=>selectedTypes.indexOf(pokeType)!==-1)
+        (typeOfFilter=='OR' ?
+        pokemon.types.some((pokeType)=>selectedTypes.indexOf(pokeType)!==-1):
+        selectedTypes.every((selected)=>pokemon.types.indexOf(selected)!==-1))
     ))
 
 

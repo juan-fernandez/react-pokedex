@@ -9,6 +9,8 @@ import Subheader from 'material-ui/Subheader'
 import RaisedButton from 'material-ui/RaisedButton'
 import Delete from 'material-ui/svg-icons/action/delete'
 import {typeToColor} from '../../../../utils/settings'
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+
 
 const MyDrawer = ({...props})=>{
     const {
@@ -16,14 +18,17 @@ const MyDrawer = ({...props})=>{
         onChangeTerm,
         filterValues,
         onChangeFilter,
-        clearFilters
+        clearFilters,
+        typeOfFilter,
+        onChangeTypeOfFilter,
     } = props
     const {
         container,
         brandContainer,
         searchContainer,
         filterContainer,
-        textField
+        textField,
+        radioButtons
     } = classes
     return (
         <div
@@ -50,6 +55,23 @@ const MyDrawer = ({...props})=>{
                 <Subheader>
                     FILTERS
                 </Subheader>
+                <RadioButtonGroup
+                    className={radioButtons}
+                    name="typeOfFilter"
+                    valueSelected={typeOfFilter}
+                    onChange={(event,value)=>onChangeTypeOfFilter(value)}
+                    >
+                    <RadioButton
+                        value="OR"
+                        label="OR"
+                        />
+                    <RadioButton
+                        value="AND"
+                        label="AND"
+                        />
+                </RadioButtonGroup>
+
+
                 {
                     Object.keys(filterValues).map((key)=>(
                         <Checkbox
