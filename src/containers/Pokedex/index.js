@@ -19,8 +19,22 @@ class PokedexContainer extends Component {
             filterValues: filterValues,
             paginationValue: 30,
             paginationIndex: 1,
-            typeOfFilter: 'OR'
+            typeOfFilter: 'OR',
+            openPokemonInfo: false,
+            pokemonChosen: -1,
         }
+    }
+    onClickPokemon = (number)=>{
+        this.setState({
+            pokemonChosen: number,
+            openPokemonInfo: true,
+        })
+    }
+    onRequestClosePokemon = ()=>{
+        this.setState({
+            openPokemonInfo: false,
+            pokemonChosen: -1,
+        })
     }
     onChangeFilter = (id,newValue)=>{
         this.setState((currentState)=>({
@@ -73,7 +87,7 @@ class PokedexContainer extends Component {
     }
     componentWillMount(){
         // only fetch the ones we do not have
-        const missingPokemon = Array.from(Array(150).keys()) // array from 0 to 150
+        const missingPokemon = Array.from(Array(152).keys()) // array from 0 to 150
                                 .filter((number)=>
                                     Object.keys(this.props.pokemons).indexOf(number.toString()) == -1)
         let index = 1
@@ -114,6 +128,10 @@ class PokedexContainer extends Component {
                 numberOfPokemon={filteredPokemonList.length}
                 typeOfFilter={this.state.typeOfFilter}
                 onChangeTypeOfFilter={this.onChangeTypeOfFilter}
+                onClickPokemon={this.onClickPokemon}
+                onRequestClosePokemon={this.onRequestClosePokemon}
+                openPokemonInfo={this.state.openPokemonInfo}
+                pokemonChosen={this.state.pokemonChosen}
                 />
         )
     }

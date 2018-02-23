@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './styles.css'
-import {typeToColor} from '../../../utils/settings'
+import {typeToColor} from '../../utils/settings'
 
-const PokemonInfo = ({...props})=>{
+const PokeCard = ({...props})=>{
     const {
+        number,
         name,
         types,
-        images
+        images,
+        onClick
     } = props
     const {
         container,
@@ -18,6 +20,7 @@ const PokemonInfo = ({...props})=>{
     return (
         <div
             className={container}
+            onClick={()=>onClick(number)}
             >
             <div
                 className={backGroundContainer}
@@ -40,7 +43,7 @@ const PokemonInfo = ({...props})=>{
         </div>
     )
 }
-PokemonInfo.propTypes = {
+PokeCard.propTypes = {
 
 }
-export default PokemonInfo
+export default PokeCard

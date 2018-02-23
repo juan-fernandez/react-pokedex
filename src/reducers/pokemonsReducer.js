@@ -63,7 +63,15 @@ const ajax = (state={
     }
     return state
 }
-
+const singlePokemonFullInfo = (state={},action)=>{
+    switch(action.type){
+        case 'GET_SINGLE_POKEMON_REQUESTED':
+            return {} //clean up
+        case 'GET_SINGLE_POKEMON_RECEIVED':
+            return action.pokemonInfo
+    }
+    return state
+}
 const pokemons = (state={}, action)=>{
     switch (action.type){
         case 'GET_SINGLE_POKEMON_RECEIVED':
@@ -84,4 +92,5 @@ const pokemons = (state={}, action)=>{
 export default combineReducers({
 	pokemons,
 	ajax,
+    singlePokemonFullInfo
 })
