@@ -16,7 +16,9 @@ class PokedexContainer extends Component {
         })
         this.state={
             searchTerm: "",
-            filterValues: filterValues
+            filterValues: filterValues,
+            paginationValue: 5,
+            paginationIndex: 1
         }
     }
     onChangeFilter = (id,newValue)=>{
@@ -24,7 +26,8 @@ class PokedexContainer extends Component {
             filterValues: {
                 ...currentState.filterValues,
                 [id]:newValue
-            }
+            },
+            paginationIndex: 1
         }))
     }
     clearFilters = ()=>{
@@ -34,19 +37,31 @@ class PokedexContainer extends Component {
         })
         this.setState({
             searchTerm: "",
-            filterValues:filterValues
+            filterValues:filterValues,
+            paginationIndex: 1
         })
     }
     onChangeTerm = (newTerm)=>{
         this.setState({
-            searchTerm: newTerm
+            searchTerm: newTerm,
+            paginationIndex: 1
+        })
+    }
+    onChangePaginationValue = (newValue)=>{
+        this.setState({
+            paginationValue: newValue
+        })
+    }
+    onChangePaginationIndex = (newValue)=>{
+        this.setState({
+            paginationIndex: newValue
         })
     }
     componentWillMount(){
         let index = 1
         this.petition_interval = setInterval(()=>{
             // add local storage and keep refreshing but slowly
-            if(index < 7){
+            if(index < 10){
                 this.props.getSinglePokemon(getRandomInt(1,150))
                 index= index+1
             }else{
@@ -55,12 +70,17 @@ class PokedexContainer extends Component {
         },500)
     }
     render(){
+        const {
+            paginationIndex,
+            paginationValue
+        } = this.state
         const selectedFilters = Object.keys(this.state.filterValues).filter((filterValue)=>(
             this.state.filterValues[filterValue]
         ))
         const filteredPokemonList = filterByType(selectedFilters,
                                     filterByName(this.state.searchTerm,
                                                  this.props.pokemons))
+
         return (
             <Pokedex
                 pokemonList={filteredPokemonList}
@@ -69,6 +89,11 @@ class PokedexContainer extends Component {
                 filterValues={this.state.filterValues}
                 onChangeFilter={this.onChangeFilter}
                 clearFilters={this.clearFilters}
+                paginationIndex={this.state.paginationIndex}
+                paginationValue={this.state.paginationValue}
+                onChangePaginationValue={this.onChangePaginationValue}
+                onChangePaginationIndex={this.onChangePaginationIndex}
+                numberOfPokemon={filteredPokemonList.length}
                 />
         )
     }
