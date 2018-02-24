@@ -20,7 +20,7 @@ export const removePokemons = () => {
 	}
 }
 export const savePokemon = (pokemonList) => {
-    //debugger
+
 	try {
 		window.localStorage.setItem('pokemonList',pokemonList)
 	}catch(err){

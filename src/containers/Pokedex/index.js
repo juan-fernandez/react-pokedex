@@ -22,7 +22,9 @@ class PokedexContainer extends Component {
             typeOfFilter: 'OR',
             openPokemonInfo: false,
             pokemonChosen: -1,
-            fetching: false
+            fetching: false,
+            fetchingIndex: -1,
+            missingPokemon: []
         }
     }
     onClickPokemon = (number)=>{
@@ -85,6 +87,13 @@ class PokedexContainer extends Component {
         if (Object.keys(nextProps.pokemons).length !== Object.keys(this.props.pokemons).length){
             // saving in local storage
             savePokemon(JSON.stringify(nextProps.pokemons))
+            if (this.state.fetching){
+                let indexToFetch = this.state.fetchingIndex +1
+                this.props.getSinglePokemon(this.state.missingPokemon[indexToFetch])
+                this.setState({
+                    fetchingIndex: indexToFetch
+                })
+            }
         }
     }
     periodicallyFetchPokemon = ()=>{
@@ -93,25 +102,18 @@ class PokedexContainer extends Component {
                                 .filter((number)=>
                                     Object.keys(this.props.pokemons).indexOf(number.toString()) == -1)
         let index = 1
-        // get first and start interval
         this.props.getSinglePokemon(missingPokemon[index])
-        this.petition_interval = setInterval(()=>{
-            // add local storage and keep refreshing but slowly
-            if(index < missingPokemon.length){
-                this.props.getSinglePokemon(missingPokemon[index])
-                index= index+1
-            }else{
-                clearInterval(this.petition_interval)
-            }
-        },5000) // every 5 seconds not to saturate the API
         this.setState({
             fetching: true,
+            fetchingIndex: index,
+            missingPokemon: missingPokemon,
         })
     }
     stopFetchingPokemon = ()=>{
-        clearInterval(this.petition_interval)
         this.setState({
             fetching: false,
+            fetchingIndex: -1,
+            missingPokemon: []
         })
     }
     clearLocalStorage = ()=>{
