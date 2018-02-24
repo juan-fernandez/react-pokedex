@@ -35,7 +35,7 @@ const PokemonInfo = ({...props})=>{
     } = classes
     return (
         <Dialog
-            bodyStyle={{padding:'0px'}}
+            bodyStyle={{padding:'0px',overflowY:'scroll'}}
             onRequestClose={onRequestClose}
             open={open}
             >
