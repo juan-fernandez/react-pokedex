@@ -149,20 +149,9 @@ const ajax = (state={
     }
     return state
 }
-const singlePokemonFullInfo = (state={},action)=>{
-    switch(action.type){
-        case 'GET_SINGLE_POKEMON_REQUESTED':
-            return {} //clean up
-        case 'GET_SINGLE_POKEMON_RECEIVED':
-            return action.pokemonInfo
-    }
-    return state
-}
+
 const pokemonSpeciesInfo = (state={},action)=>{
     switch(action.type){
-        case 'GET_POKEMON_SPECIES_REQUESTED':
-        case 'GET_SINGLE_POKEMON_REQUESTED':
-            return {} // clean up
         case 'GET_POKEMON_SPECIES_RECEIVED':
             return action.pokemonSpecies
     }
@@ -192,6 +181,7 @@ const pokemons = (state={}, action)=>{
                     // order by slot and we only keep the info we need
                     types: action.pokemonInfo.types.sort((a,b)=>a.slot - b.slot).map((pokeTypeInfo)=>pokeTypeInfo.type.name),
                     images: action.pokemonInfo.sprites,
+                    speciesUrl: action.pokemonInfo.species.url
                 }
             }
     }
@@ -200,7 +190,6 @@ const pokemons = (state={}, action)=>{
 export default combineReducers({
 	pokemons,
 	ajax,
-    singlePokemonFullInfo,
     pokemonSpeciesInfo,
     evolutionChains
 })

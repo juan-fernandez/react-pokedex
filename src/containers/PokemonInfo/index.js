@@ -18,21 +18,16 @@ class PokemonInfoContainer extends Component {
     }
     componentWillReceiveProps(nextProps){
         if (nextProps.openPokemonInfo && !this.props.openPokemonInfo){
-            // we refresh it
-            this.props.getSinglePokemon(nextProps.pokemonChosen)
             this.setState({
                 open: true,
                 pokemonChosen: nextProps.pokemonChosen
+            },()=>{
+                this.props.getSinglePokemon(nextProps.pokemonChosen)// we refresh it
+                this.props.getPokemonSpecies(this.props.pokemons[nextProps.pokemonChosen].speciesUrl)
             })
         }
         if(this.state.open){ // only do the fetching if open
-            if(nextProps.ajaxSinglePokemon.fetched && !this.props.ajaxSinglePokemon.fetched){
-                // we just got the info of that pokemon
-                if (nextProps.singlePokemonFullInfo.id == this.state.pokemonChosen && // filter possible previous requests
-                    nextProps.ajaxSinglePokemon.success){
-                    this.props.getPokemonSpecies(nextProps.singlePokemonFullInfo.species.url)
-                }
-            }else if(nextProps.ajaxPokemonSpecies.fetched && !this.props.ajaxPokemonSpecies.fetched){
+            if(nextProps.ajaxPokemonSpecies.fetched && !this.props.ajaxPokemonSpecies.fetched){
                 if (nextProps.ajaxPokemonSpecies.success){
                     let evolutionChainId = nextProps.pokemonSpeciesInfo.evolution_chain.url.split('/').slice(-2)[0]
                     this.setState({
@@ -82,10 +77,8 @@ class PokemonInfoContainer extends Component {
 }
 const mapStateToProps = (state)=>(
 	{
-		ajaxSinglePokemon: state.pokemons.ajax.single,
         ajaxPokemonSpecies: state.pokemons.ajax.pokemonSpecies,
         ajaxEvolutionChain: state.pokemons.ajax.evolutionChain,
-        singlePokemonFullInfo: state.pokemons.singlePokemonFullInfo,
         pokemonSpeciesInfo: state.pokemons.pokemonSpeciesInfo,
         evolutionChains: state.pokemons.evolutionChains,
         pokemons: state.pokemons.pokemons,

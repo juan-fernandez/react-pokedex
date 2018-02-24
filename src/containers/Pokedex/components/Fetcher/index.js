@@ -33,6 +33,7 @@ const Fetcher = ({...props})=>{
                 icon={<FileDownload/>}
             />
             <RaisedButton
+                disabled={!fetching}
                 style={{marginRight:'10px'}}
                 onClick={stopFetching}
                 label='Stop fetching'
