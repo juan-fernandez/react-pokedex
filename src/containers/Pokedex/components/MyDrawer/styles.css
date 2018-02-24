@@ -4,6 +4,7 @@
     width: 300px;
     border-right:1px solid rgba(0,0,0,0.14);
     background-color: #fff;
+    overflow-y:auto;
 }
 @media (max-width:800px){
     .container{

@@ -14,7 +14,6 @@
 }
 .generalInfo{
     position: relative;
-    overflow-y: scroll;
 }
 .listContainer{
     text-transform: capitalize;
