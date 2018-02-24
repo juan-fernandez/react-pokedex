@@ -17,5 +17,6 @@
 @media (max-width:800px){
     .container{
         left:10px;
+        top: 60px;
     }
 }
