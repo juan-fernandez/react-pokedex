@@ -1,6 +1,5 @@
 .container{
 
-
 }
 .header{
     text-transform: capitalize;
@@ -11,7 +10,7 @@
     justify-content: center;
     color: #fff;
     font-weight: 400;
-    font-size: 21px;
+    font-size: 23px;
 }
 .generalInfo{
     position: relative;
@@ -47,4 +46,39 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.evolutionContainer{
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.evolutionHeader{
+    font-size: 25px;
+    color: #fff;
+    height: 30px;
+    padding: 20px;
+}
+.evolutionContent{
+    height: 140px;
+    margin-top: 20px;
+    position:relative;
+    text-transform: capitalize;
+}
+.evolutionLoaded{
+    display: flex;
+    flex-flow: row;
+}
+.pokemonChain{
+    background-color: rgba(0,0,0,0.05);
+    height: 40px;
+    width: 100px;
+    padding: 20px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+.pokemonChainContainer{
+    display:flex;
+    align-items: center;
 }

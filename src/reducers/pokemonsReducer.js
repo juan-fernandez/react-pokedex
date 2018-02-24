@@ -169,17 +169,16 @@ const pokemonSpeciesInfo = (state={},action)=>{
     return state
 }
 
-const evolutionChainInfo = (state={},action)=>{
+const evolutionChains = (state={},action)=>{
     switch(action.type){
-        case 'GET_POKEMON_SPECIES_REQUESTED':
-        case 'GET_SINGLE_POKEMON_REQUESTED':
-        case 'GET_EVOLUTION_CHAIN_REQUESTED':
-            return {} // clean up
         case 'GET_EVOLUTION_CHAIN_RECEIVED':
-            return action.evolutionChain.chain
+            let newChain = {...state}
+            newChain[action.evolutionChain.id] = action.evolutionChain.chain
+            return newChain
     }
     return state
 }
+
 
 const pokemons = (state={}, action)=>{
     switch (action.type){
@@ -203,5 +202,5 @@ export default combineReducers({
 	ajax,
     singlePokemonFullInfo,
     pokemonSpeciesInfo,
-    evolutionChainInfo
+    evolutionChains
 })

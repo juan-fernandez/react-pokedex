@@ -11,6 +11,7 @@ class PokemonInfoContainer extends Component {
         this.state={
             evolutionChain: [],
             fetchingEvolutionChain: true,
+            evolutionChainId: -1,
         }
     }
     componentWillReceiveProps(nextProps){
@@ -24,16 +25,34 @@ class PokemonInfoContainer extends Component {
             }
         }else if(nextProps.ajaxPokemonSpecies.fetched && !this.props.ajaxPokemonSpecies.fetched){
             if (nextProps.ajaxPokemonSpecies.success){
-                this.props.getEvolutionChain(nextProps.pokemonSpeciesInfo.evolution_chain.url)
+                let evolutionChainId = nextProps.pokemonSpeciesInfo.evolution_chain.url.split('/').slice(-2)[0]
+                this.setState({
+                    evolutionChainId: evolutionChainId
+                })
+                if (!(evolutionChainId in this.props.evolutionChains)){
+                    this.props.getEvolutionChain(nextProps.pokemonSpeciesInfo.evolution_chain.url)
+                }else{ // already fetched that evolution chain
+                    this.setState({
+                        evolutionChain: getEvolutionArray(nextProps.evolutionChains[evolutionChainId]),
+                        fetchingEvolutionChain: false
+                    })
+                }
             }
         }else if(nextProps.ajaxEvolutionChain.fetched && !this.props.ajaxEvolutionChain.fetched){
             if (nextProps.ajaxEvolutionChain.success){
                 this.setState({
-                    evolutionChain:  getEvolutionArray(nextProps.evolutionChainInfo),
+                    evolutionChain: getEvolutionArray(nextProps.evolutionChains[this.state.evolutionChainId]),
                     fetchingEvolutionChain: false
                 })
             }
         }
+    }
+    onRequestClose = ()=>{
+        this.setState({
+            evolutionChain: [],
+            fetchingEvolutionChain: true,
+        })
+        this.props.onRequestClosePokemon()
     }
     render(){
         return (
@@ -41,8 +60,10 @@ class PokemonInfoContainer extends Component {
                 open={this.props.openPokemonInfo}
                 fullPokemonInfo={this.props.singlePokemonFullInfo}
                 basicInfo={this.props.pokemons[this.props.pokemonChosen]}
-                onRequestClose={this.props.onRequestClosePokemon}
+                onRequestClose={this.onRequestClose}
                 ajax={this.props.ajaxSinglePokemon}
+                evolutionChain={this.state.evolutionChain}
+                fetchingEvolutionChain={this.state.fetchingEvolutionChain}
                 />
         )
     }
@@ -54,7 +75,7 @@ const mapStateToProps = (state)=>(
         ajaxEvolutionChain: state.pokemons.ajax.evolutionChain,
         singlePokemonFullInfo: state.pokemons.singlePokemonFullInfo,
         pokemonSpeciesInfo: state.pokemons.pokemonSpeciesInfo,
-        evolutionChainInfo: state.pokemons.evolutionChainInfo,
+        evolutionChains: state.pokemons.evolutionChains,
         pokemons: state.pokemons.pokemons,
 	}
 )

@@ -3,7 +3,8 @@ import classes from './styles.css'
 import PropTypes from 'prop-types'
 import Dialog from 'material-ui/Dialog'
 import {typeToColor} from '../../../utils/settings'
-
+import Loader from 'react-loader'
+import HardwareKeyboardArrowRight from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 
 const PokemonInfo = ({...props})=>{
     const {
@@ -11,7 +12,9 @@ const PokemonInfo = ({...props})=>{
         open,
         fullPokemonInfo,
         basicInfo,
-        onRequestClose
+        onRequestClose,
+        evolutionChain,
+        fetchingEvolutionChain,
     } = props
     const {
         container,
@@ -22,9 +25,14 @@ const PokemonInfo = ({...props})=>{
         number,
         imagesContainer,
         typeContainer,
-        typeInfo
+        typeInfo,
+        evolutionContainer,
+        evolutionHeader,
+        evolutionContent,
+        pokemonChainContainer,
+        pokemonChain,
+        evolutionLoaded
     } = classes
-
     return (
         <Dialog
             bodyStyle={{padding:'0px'}}
@@ -68,6 +76,45 @@ const PokemonInfo = ({...props})=>{
                                     {type}
                                 </div>
                             ))}
+                        </div>
+                        <div
+                            className={evolutionContainer}
+                            >
+
+                            <div
+                                className={evolutionHeader}
+                                style={{backgroundColor:typeToColor[basicInfo.types[0]]}}
+                                >
+                                Evolution Info
+                            </div>
+
+                            <div
+                                className={evolutionContent}
+                                >
+                                <Loader
+                                    loaded={!fetchingEvolutionChain}
+                                    loadedClassName={evolutionLoaded}>
+                                    {evolutionChain.map((pokemon,index)=>(
+                                        <div
+                                            key={`evolutionChain-${pokemon}`}
+                                            className={pokemonChainContainer}
+                                            >
+                                            <div
+                                                className={pokemonChain}
+                                                style={pokemon==basicInfo.name  ? {
+                                                    color:'white',
+                                                    fontWeight:'800',
+                                                    backgroundColor:typeToColor[basicInfo.types[0]]
+                                                }:{}}>
+                                                {pokemon}
+                                            </div>
+                                            {(index < evolutionChain.length -1) && <HardwareKeyboardArrowRight/>}
+                                        </div>
+                                    ))}
+                                </Loader>
+                            </div>
+
+
                         </div>
                     </div>
 
