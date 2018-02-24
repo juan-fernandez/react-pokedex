@@ -92,6 +92,7 @@ const MyDrawer = ({...props})=>{
                     label='Clear filters'
                     icon={<Delete/>}
                 />
+
             </div>
 
         </div>

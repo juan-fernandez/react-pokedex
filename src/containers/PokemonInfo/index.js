@@ -12,45 +12,57 @@ class PokemonInfoContainer extends Component {
             evolutionChain: [],
             fetchingEvolutionChain: true,
             evolutionChainId: -1,
+            pokemonChosen: -1,
+            open: false
         }
     }
     componentWillReceiveProps(nextProps){
         if (nextProps.openPokemonInfo && !this.props.openPokemonInfo){
             // we refresh it
             this.props.getSinglePokemon(nextProps.pokemonChosen)
-        }else if(nextProps.ajaxSinglePokemon.fetched && !this.props.ajaxSinglePokemon.fetched){
-            // we just got the info of that pokemon
-            if (nextProps.ajaxSinglePokemon.success){
-                this.props.getPokemonSpecies(nextProps.singlePokemonFullInfo.species.url)
-            }
-        }else if(nextProps.ajaxPokemonSpecies.fetched && !this.props.ajaxPokemonSpecies.fetched){
-            if (nextProps.ajaxPokemonSpecies.success){
-                let evolutionChainId = nextProps.pokemonSpeciesInfo.evolution_chain.url.split('/').slice(-2)[0]
-                this.setState({
-                    evolutionChainId: evolutionChainId
-                })
-                if (!(evolutionChainId in this.props.evolutionChains)){
-                    this.props.getEvolutionChain(nextProps.pokemonSpeciesInfo.evolution_chain.url)
-                }else{ // already fetched that evolution chain
+            this.setState({
+                open: true,
+                pokemonChosen: nextProps.pokemonChosen
+            })
+        }
+        if(this.state.open){ // only do the fetching if open
+            if(nextProps.ajaxSinglePokemon.fetched && !this.props.ajaxSinglePokemon.fetched){
+                // we just got the info of that pokemon
+                if (nextProps.singlePokemonFullInfo.id == this.state.pokemonChosen && // filter possible previous requests
+                    nextProps.ajaxSinglePokemon.success){
+                    this.props.getPokemonSpecies(nextProps.singlePokemonFullInfo.species.url)
+                }
+            }else if(nextProps.ajaxPokemonSpecies.fetched && !this.props.ajaxPokemonSpecies.fetched){
+                if (nextProps.ajaxPokemonSpecies.success){
+                    let evolutionChainId = nextProps.pokemonSpeciesInfo.evolution_chain.url.split('/').slice(-2)[0]
                     this.setState({
-                        evolutionChain: getEvolutionArray(nextProps.evolutionChains[evolutionChainId]),
+                        evolutionChainId: evolutionChainId
+                    })
+                    if (!(evolutionChainId in this.props.evolutionChains)){
+                        this.props.getEvolutionChain(nextProps.pokemonSpeciesInfo.evolution_chain.url)
+                    }else{ // already fetched that evolution chain
+                        this.setState({
+                            evolutionChain: getEvolutionArray(nextProps.evolutionChains[evolutionChainId]),
+                            fetchingEvolutionChain: false
+                        })
+                    }
+                }
+            }else if(nextProps.ajaxEvolutionChain.fetched && !this.props.ajaxEvolutionChain.fetched){
+                if (nextProps.ajaxEvolutionChain.success){
+                    this.setState({
+                        evolutionChain: getEvolutionArray(nextProps.evolutionChains[this.state.evolutionChainId]),
                         fetchingEvolutionChain: false
                     })
                 }
             }
-        }else if(nextProps.ajaxEvolutionChain.fetched && !this.props.ajaxEvolutionChain.fetched){
-            if (nextProps.ajaxEvolutionChain.success){
-                this.setState({
-                    evolutionChain: getEvolutionArray(nextProps.evolutionChains[this.state.evolutionChainId]),
-                    fetchingEvolutionChain: false
-                })
-            }
         }
+
     }
     onRequestClose = ()=>{
         this.setState({
             evolutionChain: [],
             fetchingEvolutionChain: true,
+            open: false,
         })
         this.props.onRequestClosePokemon()
     }

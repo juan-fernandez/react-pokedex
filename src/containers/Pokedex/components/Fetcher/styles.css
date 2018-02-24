@@ -1,0 +1,11 @@
+.container{
+    position:absolute;
+    left: 330px;
+    top: 20px;
+    display:flex;
+}
+.loaderContainer{
+    position:relative;
+    width: 120px;
+
+}

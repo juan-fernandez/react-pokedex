@@ -7,7 +7,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MyDrawer from './MyDrawer'
 import Pagination from './Pagination'
 import PokemonInfo from '../../PokemonInfo'
-
+import Fetcher from './Fetcher'
 const Pokedex = ({...props})=>{
     const muiTheme = getMuiTheme({
         fontFamily: 'Muli, sans-serif',
@@ -33,6 +33,10 @@ const Pokedex = ({...props})=>{
         onRequestClosePokemon,
         openPokemonInfo,
         pokemonChosen,
+        clearLocalStorage,
+        startFetching,
+        stopFetching,
+        fetching
     } = props
     const {
         container,
@@ -53,6 +57,12 @@ const Pokedex = ({...props})=>{
                     clearFilters={clearFilters}
                     typeOfFilter={typeOfFilter}
                     onChangeTypeOfFilter={onChangeTypeOfFilter}
+                    />
+                <Fetcher
+                    clearLocalStorage={clearLocalStorage}
+                    startFetching={startFetching}
+                    stopFetching={stopFetching}
+                    fetching={fetching}
                     />
                 <Pagination
                     paginationIndex={paginationIndex}

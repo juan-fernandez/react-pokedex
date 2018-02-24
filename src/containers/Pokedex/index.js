@@ -5,7 +5,7 @@ import {getSinglePokemon} from '../../actions/pokemonsActions'
 import {filterByName, filterByType} from '../../reducers/pokemonsReducer'
 import {typeToColor} from '../../utils/settings'
 import {getRandomInt} from '../../utils/aux'
-import {savePokemon} from '../../utils/localStorage'
+import {savePokemon,removePokemons} from '../../utils/localStorage'
 
 class PokedexContainer extends Component {
     constructor(props){
@@ -22,6 +22,7 @@ class PokedexContainer extends Component {
             typeOfFilter: 'OR',
             openPokemonInfo: false,
             pokemonChosen: -1,
+            fetching: false
         }
     }
     onClickPokemon = (number)=>{
@@ -29,6 +30,7 @@ class PokedexContainer extends Component {
             pokemonChosen: number,
             openPokemonInfo: true,
         })
+        this.stopFetchingPokemon() // we stop the fetching while looking at a pokemon
     }
     onRequestClosePokemon = ()=>{
         this.setState({
@@ -85,12 +87,14 @@ class PokedexContainer extends Component {
             savePokemon(JSON.stringify(nextProps.pokemons))
         }
     }
-    componentWillMount(){
+    periodicallyFetchPokemon = ()=>{
         // only fetch the ones we do not have
         const missingPokemon = Array.from(Array(152).keys()) // array from 0 to 150
                                 .filter((number)=>
                                     Object.keys(this.props.pokemons).indexOf(number.toString()) == -1)
         let index = 1
+        // get first and start interval
+        this.props.getSinglePokemon(missingPokemon[index])
         this.petition_interval = setInterval(()=>{
             // add local storage and keep refreshing but slowly
             if(index < missingPokemon.length){
@@ -100,6 +104,18 @@ class PokedexContainer extends Component {
                 clearInterval(this.petition_interval)
             }
         },5000) // every 5 seconds not to saturate the API
+        this.setState({
+            fetching: true,
+        })
+    }
+    stopFetchingPokemon = ()=>{
+        clearInterval(this.petition_interval)
+        this.setState({
+            fetching: false,
+        })
+    }
+    clearLocalStorage = ()=>{
+        removePokemons()
     }
     render(){
         const {
@@ -132,6 +148,10 @@ class PokedexContainer extends Component {
                 onRequestClosePokemon={this.onRequestClosePokemon}
                 openPokemonInfo={this.state.openPokemonInfo}
                 pokemonChosen={this.state.pokemonChosen}
+                clearLocalStorage={this.clearLocalStorage}
+                startFetching={this.periodicallyFetchPokemon}
+                stopFetching={this.stopFetchingPokemon}
+                fetching={this.state.fetching}
                 />
         )
     }

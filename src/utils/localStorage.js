@@ -12,7 +12,7 @@ export const loadPokemon = () => {
 		return undefined
 	}
 }
-export const removeToken = () => {
+export const removePokemons = () => {
 	try {
 		window.localStorage.removeItem('pokemonList')
 	}catch(err){
