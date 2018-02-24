@@ -8,7 +8,7 @@ const PokeCard = ({...props})=>{
         number,
         name,
         types,
-        images,
+        image,
         onClick
     } = props
     const {
@@ -34,7 +34,7 @@ const PokeCard = ({...props})=>{
                     </div>
                 ))}
             </div>
-            <img width='150px' height='150px' src={images} alt=""/>
+            <img width='150px' height='150px' src={image} alt=""/>
             <div
                 className={nameContainer}
                 >

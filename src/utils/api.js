@@ -16,7 +16,15 @@ const getSinglePokemon = (id)=>
 const getAllPokemon = (id)=>
     axios.get(endpoints.pokemon.all)
 
+const getPokemonSpecies = (url)=>
+    axios.get(url)
+
+const getEvolutionChain = (url)=>
+    axios.get(url)
+
 export const pokemonFunctions = {
     getSinglePokemon,
-    getAllPokemon
+    getAllPokemon,
+    getPokemonSpecies,
+    getEvolutionChain
 }

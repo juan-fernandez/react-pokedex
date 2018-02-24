@@ -19,10 +19,36 @@ export const filterByType = (typeOfFilter,selectedTypes, pokemons)=>
     ))
 
 
+const parseChain = (currentChain,result)=>{
+    result.push(currentChain.species.name)
+    if(currentChain.evolves_to.length == 0){
+        return result
+    }else{
+        // only evolves_to[0], otherwise it gets a bit complicated
+        return parseChain(currentChain.evolves_to[0], result)
+    }
+}
+
+export const getEvolutionArray = (evolutionChain)=>
+    parseChain(evolutionChain,[])
+
+
 
 // reducers
 const ajax = (state={
     single: {
+        fetching: false,
+        fetched: false,
+        success: false,
+        errorMessage: ""
+    },
+    pokemonSpecies:{
+        fetching: false,
+        fetched: false,
+        success: false,
+        errorMessage: ""
+    },
+    evolutionChain:{
         fetching: false,
         fetched: false,
         success: false,
@@ -60,6 +86,66 @@ const ajax = (state={
                     errorMessage: ""
                 }
             }
+        case 'GET_POKEMON_SPECIES_REQUESTED':
+            return {
+                ...state,
+                pokemonSpecies: {
+                    fetching: true,
+                    fetched: false,
+                    success: false,
+                    errorMessage: ""
+                }
+            }
+        case 'GET_POKEMON_SPECIES_FAILED':
+            return {
+                ...state,
+                pokemonSpecies: {
+                    fetching: false,
+                    fetched: true,
+                    success: false,
+                    errorMessage: action.serverResponse
+                }
+            }
+        case 'GET_POKEMON_SPECIES_RECEIVED':
+            return {
+                ...state,
+                pokemonSpecies: {
+                    fetching: false,
+                    fetched: true,
+                    success: true,
+                    errorMessage: ""
+                }
+            }
+        case 'GET_EVOLUTION_CHAIN_REQUESTED':
+            return {
+                ...state,
+                evolutionChain: {
+                    fetching: true,
+                    fetched: false,
+                    success: false,
+                    errorMessage: ""
+                }
+            }
+        case 'GET_EVOLUTION_CHAIN_FAILED':
+            return {
+                ...state,
+                evolutionChain: {
+                    fetching: false,
+                    fetched: true,
+                    success: false,
+                    errorMessage: action.serverResponse
+                }
+            }
+        case 'GET_EVOLUTION_CHAIN_RECEIVED':
+            return {
+                ...state,
+                evolutionChain: {
+                    fetching: false,
+                    fetched: true,
+                    success: true,
+                    errorMessage: ""
+                }
+            }
     }
     return state
 }
@@ -72,6 +158,29 @@ const singlePokemonFullInfo = (state={},action)=>{
     }
     return state
 }
+const pokemonSpeciesInfo = (state={},action)=>{
+    switch(action.type){
+        case 'GET_POKEMON_SPECIES_REQUESTED':
+        case 'GET_SINGLE_POKEMON_REQUESTED':
+            return {} // clean up
+        case 'GET_POKEMON_SPECIES_RECEIVED':
+            return action.pokemonSpecies
+    }
+    return state
+}
+
+const evolutionChainInfo = (state={},action)=>{
+    switch(action.type){
+        case 'GET_POKEMON_SPECIES_REQUESTED':
+        case 'GET_SINGLE_POKEMON_REQUESTED':
+        case 'GET_EVOLUTION_CHAIN_REQUESTED':
+            return {} // clean up
+        case 'GET_EVOLUTION_CHAIN_RECEIVED':
+            return action.evolutionChain.chain
+    }
+    return state
+}
+
 const pokemons = (state={}, action)=>{
     switch (action.type){
         case 'GET_SINGLE_POKEMON_RECEIVED':
@@ -92,5 +201,7 @@ const pokemons = (state={}, action)=>{
 export default combineReducers({
 	pokemons,
 	ajax,
-    singlePokemonFullInfo
+    singlePokemonFullInfo,
+    pokemonSpeciesInfo,
+    evolutionChainInfo
 })
