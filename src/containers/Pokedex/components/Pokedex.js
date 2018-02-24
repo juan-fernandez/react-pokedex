@@ -8,6 +8,10 @@ import MyDrawer from './MyDrawer'
 import Pagination from './Pagination'
 import PokemonInfo from '../../PokemonInfo'
 import Fetcher from './Fetcher'
+import TextField from 'material-ui/TextField'
+import {typeToColor} from '../../../utils/settings'
+import Checkbox from 'material-ui/Checkbox'
+
 const Pokedex = ({...props})=>{
     const muiTheme = getMuiTheme({
         fontFamily: 'Muli, sans-serif',
@@ -40,7 +44,10 @@ const Pokedex = ({...props})=>{
     } = props
     const {
         container,
-        pokemonListContainer
+        pokemonListContainer,
+        appBar,
+        searchContainerResponsive,
+        filterContainerResponsive
     } = classes
     const paginatedPokemonList = pokemonList.slice((paginationIndex-1)*paginationValue,
                                                 (paginationIndex)*paginationValue)
@@ -49,6 +56,16 @@ const Pokedex = ({...props})=>{
             <div
                 className={container}
                 >
+                <div
+                    className={searchContainerResponsive}
+                    >
+                    <TextField
+                        hintText="Search for a Pokémon"
+                        value={searchTerm}
+                        onChange={(event)=>onChangeTerm(event.target.value)}
+                        fullWidth={true}/>
+                </div>
+
                 <MyDrawer
                     searchTerm={searchTerm}
                     onChangeTerm={onChangeTerm}

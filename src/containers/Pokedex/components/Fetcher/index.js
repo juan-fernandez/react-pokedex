@@ -27,21 +27,21 @@ const Fetcher = ({...props})=>{
             </div>
             <RaisedButton
                 disabled={fetching}
-                style={{marginRight:'10px'}}
+                style={{marginRight:'10px',marginBottom:'10px'}}
                 onClick={startFetching}
                 label='Start fetching'
                 icon={<FileDownload/>}
             />
             <RaisedButton
                 disabled={!fetching}
-                style={{marginRight:'10px'}}
+                style={{marginRight:'10px',marginBottom:'10px'}}
                 onClick={stopFetching}
                 label='Stop fetching'
                 icon={<Stop/>}
             />
 
             <RaisedButton
-                style={{marginRight:'10px'}}
+                style={{marginRight:'10px',marginBottom:'10px'}}
                 onClick={clearLocalStorage}
                 label='Clear local storage'
                 icon={<Clear/>}

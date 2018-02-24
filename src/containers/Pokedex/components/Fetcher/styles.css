@@ -1,11 +1,21 @@
 .container{
     position:absolute;
     left: 330px;
-    top: 20px;
+    top: 30px;
     display:flex;
+}
+@media (max-width:1060px){
+    .container{
+        flex-flow: column;
+    }
 }
 .loaderContainer{
     position:relative;
     width: 120px;
-
+    height: 45px;
+}
+@media (max-width:800px){
+    .container{
+        left:10px;
+    }
 }

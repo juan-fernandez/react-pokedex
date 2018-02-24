@@ -119,6 +119,8 @@ class PokedexContainer extends Component {
     clearLocalStorage = ()=>{
         removePokemons()
     }
+
+
     render(){
         const {
             paginationIndex,

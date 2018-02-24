@@ -14,6 +14,7 @@
 }
 .generalInfo{
     position: relative;
+    overflow-y: scroll;
 }
 .listContainer{
     text-transform: capitalize;
@@ -30,6 +31,7 @@
     display:flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
 }
 .typeContainer{
     display: flex;
@@ -59,7 +61,7 @@
     padding: 20px;
 }
 .evolutionContent{
-    height: 140px;
+    height: 180px;
     margin-top: 20px;
     position:relative;
     text-transform: capitalize;
@@ -67,6 +69,7 @@
 .evolutionLoaded{
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
 }
 .pokemonChain{
     background-color: rgba(0,0,0,0.05);
@@ -77,6 +80,7 @@
     align-items: center;
     justify-content: center;
     margin-right: 20px;
+    margin-bottom: 20px;
 }
 .pokemonChainContainer{
     display:flex;
