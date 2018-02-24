@@ -20,7 +20,6 @@ export const removePokemons = () => {
 	}
 }
 export const savePokemon = (pokemonList) => {
-    console.log(pokemonList)
     //debugger
 	try {
 		window.localStorage.setItem('pokemonList',pokemonList)
