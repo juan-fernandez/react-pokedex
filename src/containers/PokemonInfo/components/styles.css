@@ -36,7 +36,6 @@
     display: flex;
     flex-flow: row;
     margin-left:20px;
-    margin-bottom:20px;
 }
 .typeInfo{
     text-transform: uppercase;
@@ -79,7 +78,6 @@
     align-items: center;
     justify-content: center;
     margin-right: 20px;
-    margin-bottom: 20px;
 }
 .pokemonChainContainer{
     display:flex;
